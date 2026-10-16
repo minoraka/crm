@@ -1,0 +1,38 @@
+{% extends 'users/base.html' %}
+
+{% block title %}{{ student.full_name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>{{ student.full_name }}</h1>
+    {% if student.photo %}
+        <img class="photo" src="{{ student.photo.url }}" alt="{{ student.full_name }}">
+    {% endif %}
+    <dl class="detail">
+        <dt>Логин</dt><dd>{{ student.username }}</dd>
+        <dt>Email</dt><dd>{{ student.email|default:'—' }}</dd>
+        <dt>Дата рождения</dt><dd>{{ student.birth_date|date:'d.m.Y'|default:'—' }}</dd>
+        <dt>Пол</dt><dd>{{ student.get_gender_display|default:'—' }}</dd>
+        <dt>Телефон</dt><dd>{{ student.phone|default:'—' }}</dd>
+        <dt>Адрес</dt><dd>{{ student.address|default:'—' }}</dd>
+        <dt>Номер студенческого билета</dt><dd>{{ student.student_id|default:'—' }}</dd>
+        <dt>Группа</dt><dd>{{ student.group|default:'—' }}</dd>
+        <dt>Направление</dt><dd>{{ student.group.direction|default:'—' }}</dd>
+        <dt>Факультет</dt><dd>{{ student.group.direction.faculty.name|default:'—' }}</dd>
+        <dt>Курс</dt><dd>{{ student.get_course_display }}</dd>
+        <dt>Год поступления</dt><dd>{{ student.admission_year|default:'—' }}</dd>
+        <dt>Форма обучения</dt><dd>{{ student.get_education_form_display }}</dd>
+        <dt>Основа обучения</dt><dd>{{ student.get_funding_display }}</dd>
+        <dt>Статус</dt><dd>{{ student.get_status_display }}</dd>
+        <dt>Создан</dt><dd>{{ student.created_at|date:'d.m.Y H:i' }}</dd>
+        <dt>Обновлён</dt><dd>{{ student.updated_at|date:'d.m.Y H:i' }}</dd>
+    </dl>
+    <div class="actions">
+        <a class="btn btn-gray" href="{% url 'students:list' %}">К списку</a>
+        {% if user.is_authenticated %}
+            <a class="btn" href="{% url 'students:update' student.pk %}">Редактировать</a>
+            <a class="btn btn-red" href="{% url 'students:delete' student.pk %}">Удалить</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

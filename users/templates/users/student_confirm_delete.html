@@ -1,0 +1,17 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Удаление студента{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Удаление студента</h1>
+    <p>Вы действительно хотите удалить студента «{{ student.full_name }}»? Это действие нельзя отменить.</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="actions">
+            <button class="btn btn-red" type="submit">Да, удалить</button>
+            <a class="btn btn-gray" href="{% url 'students:detail' student.pk %}">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
